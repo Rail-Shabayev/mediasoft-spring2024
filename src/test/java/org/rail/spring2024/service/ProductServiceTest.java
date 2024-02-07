@@ -1,5 +1,6 @@
 package org.rail.spring2024.service;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,16 +12,21 @@ import org.rail.spring2024.repository.ProductRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.when;
 import static org.rail.spring2024.model.ProductType.ELECTRONICS;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceTest {
+public class ProductServiceTest {
 
-    @Mock
     ProductService productService;
+
+    @BeforeEach
+    void setUp() {
+        productService = new ProductService(productRepository);
+    }
 
     @Mock
     ProductRepository productRepository;
@@ -36,11 +42,21 @@ class ProductServiceTest {
     @Test
     @DisplayName("should map Product Entity to the ProductDTO object")
     void shouldMapEntityToDto() {
-        when(productService.mapToDto(product1)).thenReturn(productDto1);
         ProductDTO actualProductDto = productService.mapToDto(product1);
         assertThat(actualProductDto.getName()).isEqualTo(product1.getName());
         assertThat(actualProductDto.getPrice()).isEqualTo(product1.getPrice());
     }
 
+    @Test
+    @DisplayName("should return all products")
+    void shouldReturnAllProducts() {
+        List<Product> productList = List.of(product1);
+        List<ProductDTO> productDTOList = List.of(productDto1);
+//
+        when(productRepository.findAll()).thenReturn(productList);
+//
+        List<ProductDTO> actualProductList = productService.getAllProducts();
 
+        assertThat(actualProductList.get(0).getName()).isEqualTo(productDTOList.get(0).getName());
+    }
 }
