@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -25,6 +26,6 @@ public class Product {
     private ProductType type;
     private BigDecimal price;
     private int quantity;
-    private LocalDateTime dateUpdated;
-    private LocalDateTime dateCreated;
+    private LocalDateTime dateQuantityUpdated;
+    private LocalDate dateCreated;
 }

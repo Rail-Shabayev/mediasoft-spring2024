@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 import org.rail.spring2024.model.ProductType;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Data
 @NoArgsConstructor
@@ -20,6 +20,6 @@ public class ProductDTO {
     private ProductType type;
     private BigDecimal price;
     private int quantity;
-    private LocalDateTime dateUpdated;
-    private LocalDateTime dateCreated;
+    private LocalDateTime dateQuantityUpdated;
+    private LocalDate dateCreated;
 }
