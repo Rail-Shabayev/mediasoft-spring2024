@@ -5,4 +5,4 @@ spring:
     username: postgres
   jpa:
     show-sql: true
-    hibernate.ddl-auto: update
+    hibernate.ddl-auto: create-drop
