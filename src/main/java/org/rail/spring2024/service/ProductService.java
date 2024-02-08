@@ -8,9 +8,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class ProductService {
     private final ProductRepository productRepository;
 
@@ -32,4 +34,29 @@ public class ProductService {
                 .dateQuantityUpdated(product.getDateQuantityUpdated())
                 .build();
     }
+
+    public String saveProduct(ProductDTO productDTO) {
+        List<String> names = getAllProducts().stream().map(ProductDTO::getName).toList();
+        if (names.contains(productDTO.getName())) {
+            return "this product already exists";
+        }
+        Product product = mapToEntity(productDTO);
+        productRepository.save(product);
+        return "product saved";
+    }
+
+    public Product mapToEntity(ProductDTO productDTO) {
+        return Product.builder()
+                .uuid(UUID.randomUUID())
+                .name(productDTO.getName())
+                .description(productDTO.getDescription())
+                .type(productDTO.getType())
+                .price(productDTO.getPrice())
+                .quantity(productDTO.getQuantity())
+                .dateQuantityUpdated(productDTO.getDateQuantityUpdated())
+                .dateCreated(productDTO.getDateCreated())
+                .build();
+    }
+
+
 }
