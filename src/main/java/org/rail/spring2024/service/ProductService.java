@@ -40,14 +40,17 @@ public class ProductService {
         if (names.contains(productDTO.getName())) {
             return "this product already exists";
         }
-        Product product = mapToEntity(productDTO);
+        Product product = mapToEntity(productDTO, null);
         productRepository.save(product);
         return "product saved";
     }
 
-    public Product mapToEntity(ProductDTO productDTO) {
+    public Product mapToEntity(ProductDTO productDTO, UUID uuid) {
+        if (uuid == null) {
+            uuid = UUID.randomUUID();
+        }
         return Product.builder()
-                .uuid(UUID.randomUUID())
+                .uuid(uuid)
                 .name(productDTO.getName())
                 .description(productDTO.getDescription())
                 .type(productDTO.getType())
@@ -59,4 +62,13 @@ public class ProductService {
     }
 
 
+    public String putProduct(String name, ProductDTO productDTO) {
+        List<String> names = getAllProducts().stream().map(ProductDTO::getName).toList();
+        if (!names.contains(name)) {
+            return "this product dosen't exists";
+        }
+        Product product = productRepository.findByName(name);
+        productRepository.save(mapToEntity(productDTO, product.getUuid()));
+        return "product updated";
+    }
 }

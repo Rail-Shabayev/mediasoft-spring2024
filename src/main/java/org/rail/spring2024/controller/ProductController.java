@@ -22,4 +22,10 @@ public class ProductController {
     public String postProduct(@RequestBody ProductDTO productDTO) {
         return productService.saveProduct(productDTO);
     }
+
+    @PutMapping("/{name}")
+    public String putProduct(@RequestBody ProductDTO productDTO, @PathVariable("name") String name) {
+        return productService.putProduct(name, productDTO);
+
+    }
 }
