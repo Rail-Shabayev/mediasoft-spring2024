@@ -94,4 +94,11 @@ public class ProductServiceTest {
         assertThat(productArgumentCaptor.getValue().getName()).isEqualTo("purse");
         assertThat(productArgumentCaptor.getValue().getDescription()).isEqualTo("gaming laptop");
     }
+
+    @Test
+    @DisplayName("should delete ProductDto")
+    void shouldDeleteProductDto() {
+        productRepository.deleteByName("laptop");
+        verify(productRepository,times(1)).deleteByName("laptop");
+    }
 }
