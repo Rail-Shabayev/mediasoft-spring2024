@@ -23,6 +23,7 @@ import static org.rail.spring2024.model.ProductType.ELECTRONICS;
 @ExtendWith(MockitoExtension.class)
 public class ProductServiceTest {
 
+    @Mock
     ProductService productService;
 
     @BeforeEach
@@ -68,7 +69,7 @@ public class ProductServiceTest {
     @Test
     @DisplayName("should map Dto to the Product Entity")
     void shouldMapDtoToEntity() {
-        Product product = productService.mapToEntity(productDto1);
+        Product product = productService.mapToEntity(productDto1, null);
         assertThat(product.getName()).isEqualTo(productDto1.getName());
         assertThat(product.getPrice()).isNotEqualTo(productDto1.getQuantity());
     }
@@ -80,6 +81,17 @@ public class ProductServiceTest {
         verify(productRepository, times(1)).save(productArgumentCaptor.capture());
 
         assertThat(productArgumentCaptor.getValue().getName()).isEqualTo("laptop");
+        assertThat(productArgumentCaptor.getValue().getDescription()).isEqualTo("gaming laptop");
+    }
+
+    @Test
+    @DisplayName("should put ProductDto")
+    void shouldPutProductDto() {
+        product1.setName("purse");
+        productRepository.save(product1);
+        verify(productRepository, times(1)).save(productArgumentCaptor.capture());
+
+        assertThat(productArgumentCaptor.getValue().getName()).isEqualTo("purse");
         assertThat(productArgumentCaptor.getValue().getDescription()).isEqualTo("gaming laptop");
     }
 }
