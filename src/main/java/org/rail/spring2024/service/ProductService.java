@@ -71,4 +71,13 @@ public class ProductService {
         productRepository.save(mapToEntity(productDTO, product.getUuid()));
         return "product updated";
     }
+
+    public String deleteProduct(String productName) {
+        List<String> names = getAllProducts().stream().map(ProductDTO::getName).toList();
+        if (!names.contains(productName)) {
+            return "this product dosen't exists";
+        }
+        productRepository.deleteByName(productName);
+        return "product deleted";
+    }
 }

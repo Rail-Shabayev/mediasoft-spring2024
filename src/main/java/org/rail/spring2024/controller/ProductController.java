@@ -28,4 +28,9 @@ public class ProductController {
         return productService.putProduct(name, productDTO);
 
     }
+
+    @DeleteMapping("/{name}")
+    public String deleteProduct(@PathVariable("name") String productName) {
+        return productService.deleteProduct(productName);
+    }
 }
