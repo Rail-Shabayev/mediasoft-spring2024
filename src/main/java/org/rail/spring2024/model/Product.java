@@ -5,6 +5,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
@@ -35,14 +36,14 @@ public class Product {
     @Size(min = 2)
     private String description;
 
-    @NotBlank
+    @NotNull
     private ProductType type;
 
-    @NotBlank
+    @NotNull
     @Positive(message = "price must be positive")
     private BigDecimal price;
 
-    @NotBlank
+    @NotNull
     @Positive(message = "quantity must be positive")
     private int quantity;
     private LocalDateTime dateQuantityUpdated;
