@@ -4,6 +4,9 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -23,10 +26,24 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID uuid;
+
+    @NotBlank(message = "username is required")
+    @Size(min = 2)
     private String name;
+
+    @NotBlank(message = "description is required")
+    @Size(min = 2)
     private String description;
+
+    @NotBlank
     private ProductType type;
+
+    @NotBlank
+    @Positive(message = "price must be positive")
     private BigDecimal price;
+
+    @NotBlank
+    @Positive(message = "quantity must be positive")
     private int quantity;
     private LocalDateTime dateQuantityUpdated;
     private LocalDate dateCreated;

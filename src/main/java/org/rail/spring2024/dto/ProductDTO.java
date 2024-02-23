@@ -1,9 +1,6 @@
 package org.rail.spring2024.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.rail.spring2024.model.ProductType;
 
 import java.math.BigDecimal;
@@ -20,6 +17,8 @@ public class ProductDTO {
     private ProductType type;
     private BigDecimal price;
     private int quantity;
+    @Setter(AccessLevel.NONE)
     private LocalDateTime dateQuantityUpdated;
+    @Setter(AccessLevel.NONE)
     private LocalDate dateCreated;
 }
