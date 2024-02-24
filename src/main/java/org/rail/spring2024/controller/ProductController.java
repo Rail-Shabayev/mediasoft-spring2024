@@ -2,6 +2,7 @@ package org.rail.spring2024.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.rail.spring2024.dto.ProductDTO;
+import org.rail.spring2024.exception.ProductNotFoundException;
 import org.rail.spring2024.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,12 +28,12 @@ public class ProductController extends ProductApi {
 
     @PutMapping("/{name}")
     @ResponseStatus(CREATED)
-    public String putProduct(@RequestBody ProductDTO productDTO, @PathVariable("name") String name) {
+    public String putProduct(@RequestBody ProductDTO productDTO, @PathVariable("name") String name) throws ProductNotFoundException {
         return productService.putProduct(name, productDTO);
     }
 
     @DeleteMapping("/{name}")
-    public String deleteProduct(@PathVariable("name") String productName) {
+    public String deleteProduct(@PathVariable("name") String productName) throws ProductNotFoundException {
         return productService.deleteProduct(productName);
     }
 }
