@@ -5,3 +5,6 @@ spring:
     username: postgres
   jpa:
     hibernate.ddl-auto: create-drop
+springdoc:
+  swagger-ui:
+    enabled: false
