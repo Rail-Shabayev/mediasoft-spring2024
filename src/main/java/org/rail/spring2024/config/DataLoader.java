@@ -13,9 +13,17 @@ import java.time.LocalDateTime;
 import static java.util.UUID.randomUUID;
 import static org.rail.spring2024.model.ProductType.*;
 
+/**
+ * Class persisting dummy data for testing purposes
+ */
 @Configuration
 public class DataLoader {
 
+    /**
+     * method that creates and saves product objects
+     * @param productRepository {@link ProductRepository} used to save product objects in database
+     * @return {@link CommandLineRunner} object
+     */
     @Bean
     CommandLineRunner runner(ProductRepository productRepository) {
         return args -> {

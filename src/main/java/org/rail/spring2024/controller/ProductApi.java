@@ -14,8 +14,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+/**
+ * This class is extended by {@link ProductController} to eliminate clutter in that class.
+ * It provides api specification for {@link ProductController} class
+ */
 @Tag(name = "Product", description = "Api of Product")
 public abstract class ProductApi {
+    /**
+     * provides api specification for GET method
+     */
     @Operation(summary = "Get all products")
     @ApiResponses(value = {
             @ApiResponse(
@@ -30,6 +37,9 @@ public abstract class ProductApi {
     })
     public abstract List<ProductDTO> getProducts();
 
+    /**
+     * provides api specification for POST method
+     */
     @Operation(summary = "Add a new product to the storehouse")
     @ApiResponses(value = {
             @ApiResponse(
@@ -46,6 +56,9 @@ public abstract class ProductApi {
             @Parameter(description = "Product object that needs to be saved", required = true)
             @RequestBody ProductDTO productDTO) throws ProductNotFoundException;
 
+    /**
+     * provides api specification for PUT method
+     */
     @Operation(summary = "Update a product in the storehouse")
     @ApiResponses(value = {
             @ApiResponse(
@@ -69,6 +82,9 @@ public abstract class ProductApi {
             @PathVariable("name") String name)
             throws ProductNotFoundException;
 
+    /**
+     * provides api specification for DELETE method
+     */
     @Operation(summary = "Delete a product from the storehouse")
     @ApiResponses(value = {
             @ApiResponse(
