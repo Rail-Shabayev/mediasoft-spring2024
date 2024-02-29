@@ -9,7 +9,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
   application:
-    image: spring2024:latest
+    image: railshabayev416/spring2024
     build:
       context: .
     container_name: application
