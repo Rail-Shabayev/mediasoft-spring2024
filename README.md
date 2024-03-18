@@ -4,5 +4,6 @@
 `cd docker`
 ## 3. Выполнить команду по запуску приложения:
 `docker-compose up`
+
 Перейти по адресу http://localhost:8080/api/product 
 
