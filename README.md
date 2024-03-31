@@ -6,4 +6,5 @@
 `docker-compose up`
 
 Перейти по адресу http://localhost:8080/api/product 
-
+Ещё я попробовал пет проект сделать на основе программы курса) 
+https://github.com/Rail-Shabayev/microservice-project2.git
