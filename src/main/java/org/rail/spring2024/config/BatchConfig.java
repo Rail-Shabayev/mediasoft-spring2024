@@ -21,7 +21,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -85,16 +84,10 @@ public class BatchConfig {
         taskExecutor.afterPropertiesSet();
         return taskExecutor;
     }
-    @Bean
-    public TaskExecutor taskExecutor2() {
-        SimpleAsyncTaskExecutor taskExecutor = new SimpleAsyncTaskExecutor();
-        taskExecutor.setConcurrencyLimit(10);
-        return taskExecutor;
-    }
 
     private PostgresPagingQueryProvider createQuery() {
         final PostgresPagingQueryProvider queryProvider = new PostgresPagingQueryProvider();
-        queryProvider.setSelectClause("*");
+        queryProvider.setSelectClause("select *");
         queryProvider.setFromClause("from product");
 
         Map<String, Order> sortKeys = new HashMap<>();
