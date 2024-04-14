@@ -1,9 +1,6 @@
 package org.rail.spring2024.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -21,7 +18,7 @@ import java.util.UUID;
 /**
  * Product entity
  */
-@Entity
+@Entity(name = "product")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -53,6 +50,7 @@ public class Product {
      * type of the product
      */
     @NotNull
+    @Enumerated(EnumType.STRING)
     private ProductType type;
 
     /**

@@ -16,15 +16,17 @@ public class SchedulerProfiler {
     }
 
     @Around("scheduleMethods()")
-    public void profile(ProceedingJoinPoint joinPoint) {
+    public void profile(ProceedingJoinPoint joinPoint) throws Throwable {
         String methodName = joinPoint.getSignature().getName();
         StopWatch watch = new StopWatch();
+        Object proceed = null;
         try {
             watch.start();
+            proceed = joinPoint.proceed();
         } finally {
             watch.stop();
             long executionTime = watch.lastTaskInfo().getTimeMillis();
-            System.out.println(methodName + "'s time: " + executionTime + " ms");
+            System.out.println("Method's name: " + methodName + " | time: " + executionTime + " ms");
         }
     }
 }

@@ -1,10 +1,13 @@
 spring:
+  h2:
+    console:
+      enabled: false
   datasource:
     url: jdbc:postgresql://localhost:5432/postgres
     password: password
-    username: postgres
+    username: postgres #${password}
   jpa:
-    hibernate.ddl-auto: create-drop
+    hibernate.ddl-auto: create-drop #validate
 springdoc:
   swagger-ui:
     enabled: false
