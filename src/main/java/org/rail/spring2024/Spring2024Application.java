@@ -2,11 +2,13 @@ package org.rail.spring2024;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * Main class
  */
 @SpringBootApplication
+@EnableScheduling
 public class Spring2024Application {
 
     /**

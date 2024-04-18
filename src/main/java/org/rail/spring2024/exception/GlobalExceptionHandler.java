@@ -1,8 +1,7 @@
-package org.rail.spring2024.advice;
+package org.rail.spring2024.exception;
 
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import jakarta.validation.ConstraintViolationException;
-import org.rail.spring2024.exception.ProductNotFoundException;
 import org.rail.spring2024.model.ProductType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

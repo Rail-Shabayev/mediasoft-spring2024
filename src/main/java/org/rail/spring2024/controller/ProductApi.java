@@ -7,12 +7,12 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.rail.spring2024.dto.ProductDTO;
+import org.rail.spring2024.dto.ProductDto;
 import org.rail.spring2024.exception.ProductNotFoundException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import java.util.List;
 
 /**
  * This class is extended by {@link ProductController} to eliminate clutter in that class.
@@ -29,13 +29,13 @@ public abstract class ProductApi {
                     description = "Successful operation",
                     responseCode = "200",
                     content = @Content(
-                            mediaType = "application/json", schema = @Schema(implementation = ProductDTO.class))),
+                            mediaType = "application/json", schema = @Schema(implementation = ProductDto.class))),
             @ApiResponse(
                     description = "Bad request",
                     responseCode = "400",
                     content = @Content(schema = @Schema(example = "{\"name\":\"string\"}")))
     })
-    public abstract List<ProductDTO> getProducts();
+    public abstract Page<ProductDto> getProducts(Pageable pageable);
 
     /**
      * provides api specification for POST method
@@ -54,7 +54,7 @@ public abstract class ProductApi {
     })
     public abstract String postProduct(
             @Parameter(description = "Product object that needs to be saved", required = true)
-            @RequestBody ProductDTO productDTO) throws ProductNotFoundException;
+            @RequestBody ProductDto productDTO) throws ProductNotFoundException;
 
     /**
      * provides api specification for PUT method
@@ -77,7 +77,7 @@ public abstract class ProductApi {
     })
     public abstract String putProduct(
             @Parameter(required = true, description = "Object to be updated")
-            @RequestBody ProductDTO productDTO,
+            @RequestBody ProductDto productDTO,
             @Parameter(required = true, description = "Name of the object that needs to be updated")
             @PathVariable("name") String name)
             throws ProductNotFoundException;
