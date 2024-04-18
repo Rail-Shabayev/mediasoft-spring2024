@@ -3,6 +3,7 @@ package org.rail.spring2024.repository;
 import org.rail.spring2024.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,4 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
      * @return Optional<Product> object
      */
     Optional<Product> findByName(String name);
+
+//    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    List<Product> findAll();
 }

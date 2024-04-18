@@ -4,7 +4,6 @@ import org.rail.spring2024.batch.ProductPriceProcessor;
 import org.rail.spring2024.batch.ProductWriter;
 import org.rail.spring2024.mapper.ProductRowMapper;
 import org.rail.spring2024.model.Product;
-import org.rail.spring2024.repository.ProductRepository;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -16,24 +15,29 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.Order;
 import org.springframework.batch.item.database.support.PostgresPagingQueryProvider;
+import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
+import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
+import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
+import org.springframework.batch.item.support.CompositeItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.support.BeanDefinitionRegistryPostProcessor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+import java.math.BigDecimal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Configuration
 public class BatchConfig {
-
-    @Autowired
-    private ProductRepository productRepository;
 
     @Autowired
     private DataSource dataSource;
@@ -52,7 +56,7 @@ public class BatchConfig {
                 chunk(1000, platformTransactionManager)
                 .reader(reader())
                 .processor(processor(null))
-                .writer(writer())
+                .writer(compositeItemWriter())
                 .taskExecutor(taskExecutor())
                 .build();
     }
@@ -67,13 +71,40 @@ public class BatchConfig {
         return reader;
     }
     @Bean
-    public ItemProcessor<Product, Product> processor(@Value("${app.scheduling.priceIncreasePercentage}")Double number) {
+    public ItemProcessor<Product, Product> processor(@Value("#{new java.math.BigDecimal(\"${app.scheduling.priceIncreasePercentage}\")}") BigDecimal number) {
         return new ProductPriceProcessor(number);
     }
 
     @Bean
     public ItemWriter<Product> writer() {
         return new ProductWriter();
+    }
+
+    @Bean
+    public FlatFileItemWriter<Product> fileWriter() {
+        return new FlatFileItemWriterBuilder<Product>()
+                .name("file reader")
+                .resource(new FileSystemResource("src/main/resources/file.txt"))
+                .lineAggregator(new DelimitedLineAggregator<>() {
+                    {
+                        setDelimiter(",");
+                        setFieldExtractor(new BeanWrapperFieldExtractor<>() {
+                            {
+                                String[] names = {"uuid", "name", "description", "type",
+                                        "price", "quantity", "dateQuantityUpdated", "dateCreated"};
+                                setNames(names);
+                            }
+                        });
+                    }
+                })
+                .build();
+    }
+
+    @Bean
+    public CompositeItemWriter<Product> compositeItemWriter() {
+        CompositeItemWriter<Product> writer = new CompositeItemWriter<>();
+        writer.setDelegates(List.of(fileWriter(), writer()));
+        return writer;
     }
 
     @Bean
@@ -89,7 +120,6 @@ public class BatchConfig {
         final PostgresPagingQueryProvider queryProvider = new PostgresPagingQueryProvider();
         queryProvider.setSelectClause("select *");
         queryProvider.setFromClause("from product");
-
         Map<String, Order> sortKeys = new HashMap<>();
         sortKeys.put("uuid", Order.ASCENDING);
         queryProvider.setSortKeys(sortKeys);

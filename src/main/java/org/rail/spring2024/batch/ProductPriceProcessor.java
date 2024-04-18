@@ -4,21 +4,21 @@ import org.rail.spring2024.model.Product;
 import org.springframework.batch.item.ItemProcessor;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 public class ProductPriceProcessor implements ItemProcessor<Product, Product> {
 
-    private final Double number;
+    private final BigDecimal number;
 
-    public ProductPriceProcessor(Double number) {
+    public ProductPriceProcessor(BigDecimal number) {
         this.number = number;
     }
 
     @Override
     public Product process(Product product) {
         BigDecimal price = product.getPrice();
-        double multiplier = 1 + (number / 100);
-        BigDecimal newPrice = price.multiply(new BigDecimal(multiplier));
-        product.setPrice(newPrice);
+        BigDecimal multiplier = BigDecimal.ONE.add(number.divide(BigDecimal.valueOf(100), 4, RoundingMode.HALF_UP));
+        product.setPrice(price.multiply(multiplier));
         return product;
     }
 }

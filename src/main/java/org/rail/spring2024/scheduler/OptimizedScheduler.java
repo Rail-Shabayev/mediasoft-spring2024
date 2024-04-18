@@ -1,5 +1,6 @@
 package org.rail.spring2024.scheduler;
 
+import org.rail.spring2024.annotation.NoteTime;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParameters;
 import org.springframework.batch.core.JobParametersBuilder;
@@ -17,14 +18,16 @@ public class OptimizedScheduler {
     @Autowired
     private Job job;
 
+    @NoteTime
     @Scheduled(fixedDelayString = "${app.scheduling.fixedDelay}", initialDelay = 5000L)
     public void optimizeSchedule() throws Exception {
         System.out.println("Start optimized scheduler");
         JobParameters jobParameters = new JobParametersBuilder()
                 .addDate("date", new Date())
-                .addLong("time",System.currentTimeMillis())
+                .addLong("time", System.currentTimeMillis())
                 .toJobParameters();
         jobLauncher.run(job, jobParameters);
         System.out.println("Stop optimized scheduler");
+        System.out.println();
     }
 }

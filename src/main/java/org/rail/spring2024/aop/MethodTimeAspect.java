@@ -9,7 +9,7 @@ import org.springframework.util.StopWatch;
 
 @Aspect
 @Component
-public class SchedulerProfiler {
+public class MethodTimeAspect {
 
     @Pointcut("@annotation(org.rail.spring2024.annotation.NoteTime)")
     public void scheduleMethods() {

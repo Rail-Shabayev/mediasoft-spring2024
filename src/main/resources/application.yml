@@ -1,9 +1,14 @@
+logging:
+    level:
+        org:
+         springframework:
+            batch: ERROR
 app:
   scheduling:
     enabled: true
     optimization: true
-    priceIncreasePercentage: ${scheduling.priceIncreasePercentage:10}
-    fixedDelay: ${scheduling.fixedDelay:10000}
+    priceIncreasePercentage: 11
+    fixedDelay: 10000
 spring:
   batch:
     job:
