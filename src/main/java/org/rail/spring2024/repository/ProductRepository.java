@@ -2,6 +2,7 @@ package org.rail.spring2024.repository;
 
 import org.rail.spring2024.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -9,7 +10,7 @@ import java.util.UUID;
 /**
  * ProductRepository interface for persisting data into db.
  */
-public interface ProductRepository extends JpaRepository<Product, UUID> {
+public interface ProductRepository extends JpaRepository<Product, UUID>, JpaSpecificationExecutor<Product> {
     /**
      * Finds product object by specified name
      * @param name product name to find
