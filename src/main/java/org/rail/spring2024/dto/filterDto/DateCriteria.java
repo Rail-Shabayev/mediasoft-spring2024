@@ -16,7 +16,6 @@ public class DateCriteria extends ProductFilterDto {
     public Predicate getPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         LocalDate fieldValue = this.getValue();
         final Expression<LocalDate> expression = root.get(this.getField());
-        System.out.println(getField() + " in date " + getValue());
         return switch (this.getOperation()) {
             default -> throw new RuntimeException("some error in operation");
             case "<=", "LESS_THAN_OR_EQ" -> criteriaBuilder.lessThanOrEqualTo(expression,

@@ -16,7 +16,6 @@ public class PriceCriteria extends ProductFilterDto {
     public Predicate getPredicate(Root<Product> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
         BigDecimal fieldValue = this.getValue();
         final Expression<BigDecimal> expression = root.get(this.getField());
-        System.out.println(getField() + " in product " + getValue());
         return switch (this.getOperation()) {
             default -> throw new RuntimeException("some error in operation");
             case "<=", "LESS_THAN_OR_EQ" -> criteriaBuilder.lessThanOrEqualTo(expression,
