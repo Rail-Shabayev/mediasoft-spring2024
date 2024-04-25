@@ -1,6 +1,6 @@
 package org.rail.spring2024.mapper;
 
-import org.rail.spring2024.dto.ProductDTO;
+import org.rail.spring2024.dto.ProductDto;
 import org.rail.spring2024.model.Product;
 import org.springframework.context.annotation.Configuration;
 
@@ -13,14 +13,14 @@ import java.util.UUID;
 @Configuration
 public class ProductMapper {
 
-    /** maps {@link ProductDTO} to {@link Product} object
-     * @param productDTO {@link ProductDTO} object that needs to be mapped to {@link Product}
+    /** maps {@link ProductDto} to {@link Product} object
+     * @param productDTO {@link ProductDto} object that needs to be mapped to {@link Product}
      * @param uuid responsible for differentiating between POST and PUT methods
      *             if uuid is null then it saves object as new object in POST request
-     *             else it saves {@link ProductDTO} with old uuid as in PUT request
+     *             else it saves {@link ProductDto} with old uuid as in PUT request
      * @return {@link Product} object
      */
-    public Product mapToEntity(ProductDTO productDTO, UUID uuid) {
+    public Product mapToEntity(ProductDto productDTO, UUID uuid) {
         if (uuid == null) {
             uuid = UUID.randomUUID();
         }
@@ -37,12 +37,12 @@ public class ProductMapper {
     }
 
     /**
-     * maps {@link Product}  to {@link ProductDTO} object
-     * @param product {@link Product} object that needs to be mapped to {@link ProductDTO}
-     * @return {@link ProductDTO} object
+     * maps {@link Product}  to {@link ProductDto} object
+     * @param product {@link Product} object that needs to be mapped to {@link ProductDto}
+     * @return {@link ProductDto} object
      */
-    public ProductDTO mapToDto(Product product) {
-        return ProductDTO.builder()
+    public ProductDto mapToDto(Product product) {
+        return ProductDto.builder()
                 .name(product.getName())
                 .description(product.getDescription())
                 .type(product.getType())

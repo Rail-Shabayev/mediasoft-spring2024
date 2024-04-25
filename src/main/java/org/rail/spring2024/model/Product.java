@@ -1,17 +1,11 @@
 package org.rail.spring2024.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -23,8 +17,9 @@ import java.util.UUID;
  */
 @Entity
 @NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-@Data
 @Builder
 public class Product {
     /**
@@ -53,6 +48,7 @@ public class Product {
      * type of the product
      */
     @NotNull
+    @Enumerated(EnumType.STRING)
     private ProductType type;
 
     /**
